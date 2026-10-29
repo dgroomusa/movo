@@ -76,6 +76,8 @@
   .fade{animation:fade .35s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @keyframes fadeOp{from{opacity:0}to{opacity:1}}
+  .ms.svg{width:18px;height:18px;fill:currentColor;display:inline-block;vertical-align:middle;padding:1px;box-sizing:border-box}
+  .mic.svg{width:20px;height:20px}
   @keyframes march{to{stroke-dashoffset:-14}}
   @keyframes dotlight{0%,100%{opacity:.22;transform:scale(.82)}18%,42%{opacity:1;transform:scale(1.18)}}
   @keyframes shimmer{from{background-position:140% 0}to{background-position:-140% 0}}
@@ -367,6 +369,7 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icoPlane" viewBox="0 0 512 512"><path d="M511.996,60.921c0.168-16.341-6.104-31.703-17.659-43.259C482.933,6.257,467.822,0,451.719,0c-0.213,0-0.427,0.001-0.642,0.003c-16.341,0.168-31.571,6.755-42.885,18.545l-89.617,93.385L84.076,34.329l-69.253,69.253l195.97,120.664l-80.635,84.026l-63.288-10.39L0,364.75l109.054,38.197L147.25,512l66.87-66.87l-10.39-63.288l84.026-80.635L408.42,497.178l69.254-69.253L400.07,193.426l93.384-89.617C505.243,92.493,511.828,77.262,511.996,60.921z M472.661,82.142L365.608,184.876l77.739,234.907l-29.285,29.285L293.814,253.773L171.537,371.116l10.454,63.675l-22.193,22.193l-27.18-77.602l-77.602-27.18l22.193-22.193l63.675,10.454l117.343-122.276L62.933,97.94l29.285-29.285l234.907,77.739L429.859,39.341c5.679-5.919,13.326-9.225,21.529-9.31c0.107-0.002,0.215-0.002,0.321-0.002c8.083,0,15.67,3.141,21.396,8.867c5.802,5.801,8.949,13.513,8.865,21.716C481.885,68.815,478.579,76.461,472.661,82.142z"/></symbol></svg>
 <div class="intro"><b>movo</b><br>Live prototype</div>
 <div class="phone" id="phone">
 
@@ -437,7 +440,7 @@
     <h2 class="q">Where to?</h2>
     <p class="sub">Know the place, know the distance, or let movo surprise you.</p>
     <div class="card row" id="mode-reach" onclick="selectMode('reach')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">explore</span><div><div class="t">Somewhere within reach</div><div class="s">Set a travel-time radius from home</div></div></div><span class="ms mradio">radio_button_checked</span></div>
-    <div class="card row" id="mode-know" onclick="selectMode('know')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">flight_takeoff</span><div><div class="t">I know where</div><div class="s">Tell movo where</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
+    <div class="card row" id="mode-know" onclick="selectMode('know')"><div style="display:flex;gap:12px;align-items:center"><svg class="ms mic svg"><use href="#icoPlane"/></svg><div><div class="t">I know where</div><div class="s">Tell movo where</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
     <div class="card row" id="mode-surprise" onclick="selectMode('surprise')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">sunny</span><div><div class="t">Surprise me</div><div class="s">Movo picks from your taste profile</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
     <div id="knowWrap" class="hidden">
       <div class="overline" style="margin-top:14px">Destination</div>
@@ -570,7 +573,7 @@
         <div class="tfoot"><span>Delta · <b>DL 56</b></span><span>Seat <b>14A</b></span></div>
       </div>
       <div class="overline">Your bundle</div>
-      <div class="arow"><span class="ms">flight_takeoff</span><span class="al">Flights, round trip</span><span class="av">$620</span></div>
+      <div class="arow"><svg class="ms svg"><use href="#icoPlane"/></svg><span class="al">Flights, round trip</span><span class="av">$620</span></div>
       <div class="arow"><span class="ms">hotel</span><span class="al">Hotel Bethel · 5 nights</span><span class="av">$610</span></div>
       <div class="arow"><span class="ms">local_taxi</span><span class="al">Metro + transfers</span><span class="av">$30</span></div>
       <div class="arow"><span class="ms">confirmation_number</span><span class="al">4 activities, booked</span><span class="av">$220</span></div>
@@ -937,7 +940,7 @@ var ACCT = {
  saved: { title:'Saved places', body: function(){ return renderSavedRows(); } },
  docs: { title:'Travel documents', body: `
    <div class="arow"><span class="ms">badge</span><span class="al">Passport · USA</span><span class="av" style="color:var(--forest-t);font-weight:600">valid to 2031</span></div>
-   <div class="arow"><span class="ms">flight_takeoff</span><span class="al">Global Entry</span><span class="av">renews 2027</span></div>
+   <div class="arow"><svg class="ms svg"><use href="#icoPlane"/></svg><span class="al">Global Entry</span><span class="av">renews 2027</span></div>
    <div class="arow"><span class="ms">loyalty</span><span class="al">Delta SkyMiles</span><span class="av">···8841</span></div>
    <div class="card" style="cursor:default;margin-top:14px"><div style="display:flex;gap:10px"><span class="ms" style="color:var(--latte);font-size:17px">info</span><div class="s">Movo checks these during planning — visa needs, passport validity windows, and loyalty perks get flagged in the wizard automatically.</div></div></div>` },
  payments: { title:'Payments', body: `
@@ -951,7 +954,7 @@ var ACCT = {
    <div class="arow"><span class="al">Inspiration &amp; offers</span><div class="sw" onclick="this.classList.toggle('on')"></div></div>` },
  connections: { title:'Connections', body: `
    <p class="sub">Live data powering suggestions and replanning.</p>
-   <div class="arow"><span class="ms">flight_takeoff</span><span class="al">Flight &amp; train status</span><span class="pill pill-live">● Live</span></div>
+   <div class="arow"><svg class="ms svg"><use href="#icoPlane"/></svg><span class="al">Flight &amp; train status</span><span class="pill pill-live">● Live</span></div>
    <div class="arow"><span class="ms">sunny</span><span class="al">Weather</span><span class="pill pill-live">● Live</span></div>
    <div class="arow"><span class="ms">calendar_month</span><span class="al">Calendar</span><button class="chip" style="margin:0" onclick="this.outerHTML='<span class=&quot;pill pill-live&quot;>● Live</span>'">Connect</button></div>` },
  appearance: { title:'Appearance', body: `
