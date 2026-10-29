@@ -437,7 +437,7 @@
     <h2 class="q">Where to?</h2>
     <p class="sub">Know the place, know the distance, or let movo surprise you.</p>
     <div class="card row" id="mode-reach" onclick="selectMode('reach')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">explore</span><div><div class="t">Somewhere within reach</div><div class="s">Set a travel-time radius from home</div></div></div><span class="ms mradio">radio_button_checked</span></div>
-    <div class="card row" id="mode-know" onclick="selectMode('know')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">flight</span><div><div class="t">I know where</div><div class="s">Tell movo where</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
+    <div class="card row" id="mode-know" onclick="selectMode('know')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">flight_takeoff</span><div><div class="t">I know where</div><div class="s">Tell movo where</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
     <div class="card row" id="mode-surprise" onclick="selectMode('surprise')"><div style="display:flex;gap:12px;align-items:center"><span class="ms mic">sunny</span><div><div class="t">Surprise me</div><div class="s">Movo picks from your taste profile</div></div></div><span class="ms mradio">radio_button_unchecked</span></div>
     <div id="knowWrap" class="hidden">
       <div class="overline" style="margin-top:14px">Destination</div>
@@ -570,7 +570,7 @@
         <div class="tfoot"><span>Delta · <b>DL 56</b></span><span>Seat <b>14A</b></span></div>
       </div>
       <div class="overline">Your bundle</div>
-      <div class="arow"><span class="ms">flight</span><span class="al">Flights, round trip</span><span class="av">$620</span></div>
+      <div class="arow"><span class="ms">flight_takeoff</span><span class="al">Flights, round trip</span><span class="av">$620</span></div>
       <div class="arow"><span class="ms">hotel</span><span class="al">Hotel Bethel · 5 nights</span><span class="av">$610</span></div>
       <div class="arow"><span class="ms">local_taxi</span><span class="al">Metro + transfers</span><span class="av">$30</span></div>
       <div class="arow"><span class="ms">confirmation_number</span><span class="al">4 activities, booked</span><span class="av">$220</span></div>
@@ -951,7 +951,7 @@ var ACCT = {
    <div class="arow"><span class="al">Inspiration &amp; offers</span><div class="sw" onclick="this.classList.toggle('on')"></div></div>` },
  connections: { title:'Connections', body: `
    <p class="sub">Live data powering suggestions and replanning.</p>
-   <div class="arow"><span class="ms">flight</span><span class="al">Flight &amp; train status</span><span class="pill pill-live">● Live</span></div>
+   <div class="arow"><span class="ms">flight_takeoff</span><span class="al">Flight &amp; train status</span><span class="pill pill-live">● Live</span></div>
    <div class="arow"><span class="ms">sunny</span><span class="al">Weather</span><span class="pill pill-live">● Live</span></div>
    <div class="arow"><span class="ms">calendar_month</span><span class="al">Calendar</span><button class="chip" style="margin:0" onclick="this.outerHTML='<span class=&quot;pill pill-live&quot;>● Live</span>'">Connect</button></div>` },
  appearance: { title:'Appearance', body: `
