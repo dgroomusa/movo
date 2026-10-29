@@ -815,7 +815,7 @@ function renderItinStatus(){
    : '<div class="card row" style="cursor:default"><div><div class="s" style="color:var(--orange7);font-weight:600">Proposed · not booked yet</div><div class="t" style="font-size:15px">$1,480 all-in · Sep 12–17</div></div><button class="chip filled" style="margin:0" onclick="go(\'booking\')">Book it</button></div>';
   if (curDay) renderDay(curDay);
 }
-var tasteDone = false, tasteI = 0;
+var tasteDone = false, tasteI = 0, tasteHist = [];
 var TASTE_Q = [
   {imgk:'tmarkets', pos:'center 42%', t:'Street markets over shopping malls', s:'Eat where the locals queue.', tag:'Markets'},
   {imgk:'tmornings', pos:'center', t:'Slow mornings, no 7 a.m. tours', s:'The day starts after coffee.', tag:'Slow mornings'},
@@ -824,9 +824,16 @@ var TASTE_Q = [
 var tasteReturn = 'feed';
 function letsGo(){ if (tasteDone) { tabTo('feed'); } else { tasteReturn='feed'; go('taste'); tasteStart(); } }
 function tasteRetake(){ tasteReturn='acct'; go('taste'); tasteStart(); }
-function tasteBack(){ if (tasteReturn==='acct') { openAcct('taste'); } else { go('welcome'); } }
+function tasteBack(){
+  if (tasteI > 0) {
+    var h = tasteHist.pop();
+    if (h && h.tag) { if (h.had) tasteAdd(h.tag); else tasteRemove(h.tag); }
+    tasteI--; renderTaste(); return;
+  }
+  if (tasteReturn==='acct') { openAcct('taste'); } else { go('welcome'); }
+}
 function finishTaste(){ if (tasteReturn==='acct') { openAcct('taste'); } else { tabTo('feed'); } }
-function tasteStart(){ tasteI = 0; document.getElementById('tasteHead').textContent = 'Does this feel like you?'; document.getElementById('tasteSub').style.display = ''; renderTaste(); }
+function tasteStart(){ tasteI = 0; tasteHist = []; document.getElementById('tasteHead').textContent = 'Does this feel like you?'; document.getElementById('tasteSub').style.display = ''; renderTaste(); }
 function renderTaste(){
   var q = TASTE_Q[tasteI];
   document.getElementById('tasteHead').style.display = 'none';
@@ -858,6 +865,7 @@ function renderTasteProfile(){
 }
 function tasteNext(love){
   var q = TASTE_Q[tasteI];
+  tasteHist.push({ tag: q && q.tag, had: !!(q && q.tag && tasteHas(q.tag)) });
   if (q && q.tag) { if (love) tasteAdd(q.tag); else tasteRemove(q.tag); }
   tasteI++; if (tasteI >= TASTE_Q.length) { renderTasteChips(); } else { renderTaste(); }
 }
