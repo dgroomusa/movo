@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>movo — Design System v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* — movo color tokens · "Asteroid City" palette — */
+    --cream:      #FAF3E1;  /* canvas */
+    --postcard:   #FFF1B4;  /* warm highlight wash */
+    --darlington: #ACCAB2;  /* mint — surfaces, calm states */
+    --mint-wash:  #E4EEE3;  /* lightest mint — section bg */
+    --sage:       #A3AB7C;  /* muted green — secondary UI */
+    --olive:      #747F55;  /* deep green — emphasis, dark surfaces */
+    --seafoam:    #5AA993;  /* live / success / on-track */
+    --beeswax:    #E9A752;  /* warm accent, ratings */
+    --mustard:    #E5B050;  /* warnings, highlights */
+    --grenadine:  #D44720;  /* PRIMARY — brand, CTAs */
+    --grenadine-press: #B93A18;
+    --peach:      #E07551;  /* secondary warm accent */
+    --latte:      #78614D;  /* secondary text, captions */
+    --ink:        #33302A;  /* primary text */
+    --paper:      #FFFDF7;  /* cards */
+    --line:       #E7DFC9;  /* hairlines */
+
+    --font-display: "Stack Sans Notch", "Helvetica Neue", sans-serif;
+    --font-text: "Stack Sans Text", "Helvetica Neue", sans-serif;
+
+    --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-pill: 100px;
+    --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--font-text); line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 64px 32px 120px; }
+
+  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 32px; margin-bottom: 56px; display:flex; justify-content:space-between; align-items:flex-end; }
+  .wordmark { font-family: var(--font-display); font-weight: 700; font-size: 56px; letter-spacing: -1px; color: var(--grenadine); }
+  .masthead .meta { text-align: right; font-size: 13px; color: var(--latte); }
+
+  h2 { font-family: var(--font-display); font-weight: 600; font-size: 28px; margin: 64px 0 8px; letter-spacing: -0.3px; }
+  h2 .no { color: var(--grenadine); margin-right: 10px; font-weight: 700; }
+  .lede { color: var(--latte); font-size: 15px; margin-bottom: 28px; max-width: 620px; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+  .swatch { border: 1.5px solid var(--ink); border-radius: var(--r-md); overflow: hidden; background: var(--paper); }
+  .swatch .chip { height: 96px; display:flex; align-items:flex-end; padding: 12px; }
+  .swatch .chip .name { font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .swatch .info { padding: 10px 12px; font-size: 12px; color: var(--latte); border-top: 1.5px solid var(--ink); display:flex; justify-content:space-between; }
+  .swatch .info b { color: var(--ink); font-weight: 600; }
+
+  .type-row { display:flex; align-items: baseline; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .type-row .spec { width: 220px; flex-shrink:0; font-size: 12px; color: var(--latte); }
+  .type-row .sample { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+  .demo-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; align-items: start; }
+  .demo { background: var(--paper); border: 1.5px solid var(--ink); border-radius: var(--r-lg); padding: 24px; }
+  .demo .label { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--latte); margin-bottom: 16px; font-family: var(--font-display); }
+
+  .btn { font-family: var(--font-text); font-weight: 600; font-size: 15px; border: none; border-radius: var(--r-pill); padding: 14px 24px; cursor: pointer; display:inline-block; }
+  .btn-primary { background: var(--grenadine); color: #fff; }
+  .btn-primary:active { background: var(--grenadine-press); }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .btn-tonal { background: var(--mint-wash); color: var(--olive); }
+  .btn-text { background:none; color: var(--grenadine); padding: 14px 8px; }
+
+  .pill { display:inline-block; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: var(--r-pill); margin: 0 6px 8px 0; }
+  .pill-live { background: var(--seafoam); color: #fff; }
+  .pill-match { background: var(--mint-wash); color: var(--olive); border: 1px solid var(--sage); }
+  .pill-warn { background: var(--postcard); color: #8a6a10; border: 1px solid var(--mustard); }
+  .pill-tag { background: transparent; color: var(--latte); border: 1px solid var(--line); }
+
+  .card-sample { border: 1.5px solid var(--ink); border-radius: var(--r-lg); overflow:hidden; background: var(--paper); }
+  .card-sample .img { height: 110px; background: linear-gradient(180deg, var(--darlington) 60%, var(--sage) 60%); position: relative; }
+  .card-sample .img::after { content:""; position:absolute; left:50%; top:30%; transform:translateX(-50%); width: 44px; height:44px; border-radius:50%; background: var(--beeswax); border: 1.5px solid var(--ink); }
+  .card-sample .body { padding: 16px; }
+  .card-sample .t { font-family: var(--font-display); font-weight: 600; font-size: 17px; }
+  .card-sample .s { font-size: 13px; color: var(--latte); margin-top: 2px; }
+
+  .input { width:100%; font-family: var(--font-text); font-size: 15px; padding: 14px 16px; border: 1.5px solid var(--ink); border-radius: var(--r-md); background: var(--paper); color: var(--ink); margin-bottom: 12px; }
+  .input::placeholder { color: var(--latte); }
+  .input:focus { outline: 2px solid var(--grenadine); outline-offset: 1px; }
+
+  .seg { display:flex; background: var(--mint-wash); border-radius: var(--r-pill); padding: 4px; border: 1px solid var(--line); }
+  .seg button { flex:1; border:none; background:transparent; font-family: var(--font-text); font-weight:600; font-size:13px; padding: 9px 0; border-radius: var(--r-pill); color: var(--latte); cursor:pointer; }
+  .seg button.on { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); }
+
+  .tabbar-demo { display:flex; justify-content:space-around; background: var(--paper); border: 1.5px solid var(--ink); border-radius: var(--r-pill); padding: 10px 8px; }
+  .tabbar-demo span { font-size: 12px; font-weight: 600; color: var(--latte); padding: 8px 14px; border-radius: var(--r-pill); }
+  .tabbar-demo span.on { background: var(--grenadine); color:#fff; }
+
+  .spacing-demo { display:flex; align-items:flex-end; gap: 12px; }
+  .spacing-demo div { background: var(--darlington); border: 1px solid var(--olive); border-radius: 4px; }
+  .spacing-demo p { font-size: 11px; color: var(--latte); text-align:center; margin-top:6px; }
+
+  .radius-demo { display:flex; gap: 16px; flex-wrap:wrap; }
+  .radius-demo .r { width: 90px; height: 64px; background: var(--mint-wash); border: 1.5px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size: 11px; color: var(--latte); }
+
+  .voice-table { width:100%; border-collapse: collapse; font-size: 14px; }
+  .voice-table td, .voice-table th { border: 1px solid var(--line); padding: 12px 16px; text-align:left; vertical-align: top; }
+  .voice-table th { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; background: var(--mint-wash); }
+  .voice-table .no-cell { color: #a33; }
+  .voice-table .yes-cell { color: var(--olive); font-weight: 500; }
+
+  .principles { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
+  .principle { border-left: 3px solid var(--grenadine); padding: 4px 0 4px 16px; }
+  .principle b { font-family: var(--font-display); font-weight: 600; display:block; margin-bottom: 2px; }
+  .principle span { font-size: 14px; color: var(--latte); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <div class="wordmark">movo</div>
+      <div style="font-size:14px; color:var(--latte); margin-top:4px;">The AI that knows how you travel.</div>
+    </div>
+    <div class="meta">Design system · v1.0<br>Theme: Intelligent Exploration<br>Palette: Asteroid City</div>
+  </div>
+
+  <div class="principles">
+    <div class="principle"><b>Wes Anderson color, Apple restraint</b><span>Nostalgic palette applied with modern discipline — lots of cream, color used with intent.</span></div>
+    <div class="principle"><b>Symmetry &amp; center</b><span>Centered compositions, balanced layouts, generous whitespace.</span></div>
+    <div class="principle"><b>Human, never robotic</b><span>AI speaks conversationally. Confident, encouraging, a little playful.</span></div>
+    <div class="principle"><b>One clear action</b><span>Each screen has a single grenadine CTA. Everything else stays quiet.</span></div>
+  </div>
+
+  <h2><span class="no">01</span>Color</h2>
+  <p class="lede">Cream is the canvas. Mint and sage do the quiet work. Grenadine is reserved for the brand and the one action that matters per screen. Seafoam means "live / on track", mustard means "heads up".</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:var(--grenadine)"><span class="name" style="color:#FFE9DF">Grenadine</span></div><div class="info"><b>#D44720</b><span>Primary · CTA · brand</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--peach)"><span class="name" style="color:#4A1B0C">Peach</span></div><div class="info"><b>#E07551</b><span>Warm accent</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--beeswax)"><span class="name" style="color:#5C3A08">Beeswax</span></div><div class="info"><b>#E9A752</b><span>Ratings · warmth</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--mustard)"><span class="name" style="color:#5C3A08">Mustard</span></div><div class="info"><b>#E5B050</b><span>Warnings · alerts</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--seafoam)"><span class="name" style="color:#0A3A2E">Seafoam</span></div><div class="info"><b>#5AA993</b><span>Live · success</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--darlington)"><span class="name" style="color:#2E4A36">Darlington</span></div><div class="info"><b>#ACCAB2</b><span>Mint surfaces</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--sage)"><span class="name" style="color:#2E3320">Sage</span></div><div class="info"><b>#A3AB7C</b><span>Secondary UI</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--olive)"><span class="name" style="color:#E4EEE3">Olive</span></div><div class="info"><b>#747F55</b><span>Emphasis · dark surface</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--postcard)"><span class="name" style="color:#6B4E00">Postcard</span></div><div class="info"><b>#FFF1B4</b><span>Highlight wash</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--cream); border-bottom:none;"><span class="name" style="color:var(--latte)">Cream</span></div><div class="info"><b>#FAF3E1</b><span>App canvas</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--latte)"><span class="name" style="color:#EFE3D5">Cafe latte</span></div><div class="info"><b>#78614D</b><span>Secondary text</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ink)"><span class="name" style="color:#EFE9DB">Ink</span></div><div class="info"><b>#33302A</b><span>Primary text · lines</span></div></div>
+  </div>
+
+  <h2><span class="no">02</span>Typography</h2>
+  <p class="lede">Stack Sans Notch for display and headings — the notch detail gives movo its voice. Stack Sans Text for everything readable. Both from Google Fonts, variable weight 200–800.</p>
+  <div>
+    <div class="type-row"><div class="spec">Display · Notch 700 · 40/44 · -1%</div><div class="sample" style="font-family:var(--font-display); font-weight:700; font-size:40px; letter-spacing:-0.4px;">Where to next, David?</div></div>
+    <div class="type-row"><div class="spec">Title 1 · Notch 600 · 28/34</div><div class="sample" style="font-family:var(--font-display); font-weight:600; font-size:28px;">Lisbon, on your terms</div></div>
+    <div class="type-row"><div class="spec">Title 2 · Notch 600 · 20/26</div><div class="sample" style="font-family:var(--font-display); font-weight:600; font-size:20px;">Day 2 — Alfama &amp; fado</div></div>
+    <div class="type-row"><div class="spec">Body · Text 400 · 16/24</div><div class="sample" style="font-size:16px;">Slow mornings, market food, and one perfect sunset lookout.</div></div>
+    <div class="type-row"><div class="spec">Callout · Text 600 · 15/20</div><div class="sample" style="font-weight:600; font-size:15px;">96% match — built from your taste profile</div></div>
+    <div class="type-row"><div class="spec">Caption · Text 400 · 13/18</div><div class="sample" style="font-size:13px; color:var(--latte);">Booked · Tram 28 heritage ride · 10:30</div></div>
+    <div class="type-row"><div class="spec">Overline · Notch 600 · 11/14 · +8% caps</div><div class="sample" style="font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--latte);">Day 1 · September 12</div></div>
+  </div>
+
+  <h2><span class="no">03</span>Spacing &amp; shape</h2>
+  <p class="lede">An 8-pt rhythm with a 4-pt half-step, like iOS. Pills for actions, 24 px radius for cards, hairline ink borders instead of shadows — flat, printed, postcard-like.</p>
+  <div style="display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start;">
+    <div class="spacing-demo">
+      <div><div style="width:16px;height:4px;"></div><p>4</p></div>
+      <div><div style="width:16px;height:8px;"></div><p>8</p></div>
+      <div><div style="width:16px;height:12px;"></div><p>12</p></div>
+      <div><div style="width:16px;height:16px;"></div><p>16</p></div>
+      <div><div style="width:16px;height:24px;"></div><p>24</p></div>
+      <div><div style="width:16px;height:32px;"></div><p>32</p></div>
+      <div><div style="width:16px;height:48px;"></div><p>48</p></div>
+      <div><div style="width:16px;height:64px;"></div><p>64</p></div>
+    </div>
+    <div class="radius-demo">
+      <div class="r" style="border-radius:10px;">10 — inputs</div>
+      <div class="r" style="border-radius:16px;">16 — tiles</div>
+      <div class="r" style="border-radius:24px;">24 — cards</div>
+      <div class="r" style="border-radius:100px;">pill — actions</div>
+    </div>
+  </div>
+
+  <h2><span class="no">04</span>Components</h2>
+  <p class="lede">Core kit. Ink hairlines, flat fills, one grenadine action per view.</p>
+  <div class="demo-grid">
+    <div class="demo"><div class="label">Buttons</div>
+      <button class="btn btn-primary" style="width:100%; margin-bottom:10px;">Book this trip</button>
+      <button class="btn btn-secondary" style="width:100%; margin-bottom:10px;">Preview trip</button>
+      <button class="btn btn-tonal" style="width:100%; margin-bottom:10px;">Surprise me</button>
+      <button class="btn btn-text">See all options</button>
+    </div>
+    <div class="demo"><div class="label">Pills &amp; status</div>
+      <span class="pill pill-live">● Live</span>
+      <span class="pill pill-match">96% match</span>
+      <span class="pill pill-warn">Plan changed</span>
+      <span class="pill pill-tag">Street food</span>
+      <span class="pill pill-tag">Slow mornings</span>
+      <span class="pill pill-tag">Boutique stays</span>
+    </div>
+    <div class="demo"><div class="label">Trip card</div>
+      <div class="card-sample">
+        <div class="img"></div>
+        <div class="body">
+          <span class="pill pill-match" style="margin-bottom:8px;">96% match</span>
+          <div class="t">Lisbon, on your terms</div>
+          <div class="s">Sep 12–17 · from $1,240 all-in</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo"><div class="label">Inputs</div>
+      <input class="input" placeholder="Where do you want to go?">
+      <div class="seg"><button class="on">For you</button><button>Trending</button><button>Saved</button></div>
+    </div>
+    <div class="demo" style="grid-column: 1 / -1;"><div class="label">Tab bar</div>
+      <div class="tabbar-demo"><span class="on">For you</span><span>Trips</span><span>Movo</span><span>Profile</span></div>
+    </div>
+  </div>
+
+  <h2><span class="no">05</span>Voice</h2>
+  <p class="lede">Conversational, insightful, encouraging. Movo talks like a well-traveled friend, not a booking engine.</p>
+  <table class="voice-table">
+    <tr><th style="width:33%;">Moment</th><th class="yes-cell">Movo says</th><th class="no-cell">Not this</th></tr>
+    <tr><td>Trip generated</td><td class="yes-cell">"Built this one around your slow mornings. Thoughts?"</td><td class="no-cell">"Your itinerary has been generated successfully."</td></tr>
+    <tr><td>Disruption</td><td class="yes-cell">"Tram's cancelled — already found you something better."</td><td class="no-cell">"ALERT: Booking #4432 status changed."</td></tr>
+    <tr><td>Encouraging discovery</td><td class="yes-cell">"You always love markets. This one's special."</td><td class="no-cell">"Users like you also viewed…"</td></tr>
+  </table>
+
+</div>
+</body>
+</html>

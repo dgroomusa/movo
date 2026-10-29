@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>movo — The AI that knows how you travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#FAF3E1; --postcard:#FFF1B4; --darlington:#ACCAB2; --mint-wash:#E4EEE3;
+    --sage:#A3AB7C; --olive:#747F55; --seafoam:#5AA993; --beeswax:#E9A752;
+    --mustard:#E5B050; --grenadine:#D44720; --grenadine-press:#B93A18; --peach:#E07551;
+    --latte:#78614D; --ink:#33302A; --paper:#FFFDF7; --line:#E7DFC9;
+    --fd:"Stack Sans Notch","Helvetica Neue",sans-serif;
+    --ft:"Stack Sans Text","Helvetica Neue",sans-serif;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-font-smoothing:antialiased; }
+  body { font-family:var(--ft); background:var(--darlington); color:var(--ink);
+    display:flex; flex-direction:column; align-items:center; padding:32px 16px 60px; min-height:100vh; }
+  .page-intro { max-width:390px; text-align:center; margin-bottom:20px; color:#2E4A36; font-size:13px; line-height:1.5; }
+  .page-intro b { font-family:var(--fd); font-weight:700; color:var(--grenadine); font-size:15px; }
+
+  .phone { width:375px; height:780px; background:var(--cream); border-radius:44px;
+    border:10px solid var(--ink); box-shadow:0 30px 60px rgba(46,58,42,0.35);
+    position:relative; overflow:hidden; display:flex; flex-direction:column; }
+  .notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:130px; height:26px;
+    background:var(--ink); border-radius:0 0 16px 16px; z-index:50; }
+  .statusbar { height:42px; flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
+    padding:0 26px; font-size:13px; font-weight:600; font-family:var(--fd); }
+  .screen { flex:1; overflow-y:auto; position:relative; scrollbar-width:none; }
+  .screen::-webkit-scrollbar { display:none; }
+  .screen-inner { padding:4px 20px 110px; }
+
+  .app-header { padding:10px 20px 18px; }
+  .app-header .greet { font-size:13px; color:var(--latte); margin-bottom:2px; }
+  .app-header h1 { font-family:var(--fd); font-weight:700; font-size:30px; letter-spacing:-0.5px; }
+  .app-header h1 .brand { color:var(--grenadine); }
+
+  .navbar { position:absolute; bottom:14px; left:16px; right:16px; height:62px;
+    background:var(--paper); border:1.5px solid var(--ink); border-radius:100px;
+    display:flex; align-items:center; justify-content:space-around; padding:0 8px; z-index:40; }
+  .navbtn { display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+    font-family:var(--ft); font-size:12px; font-weight:600; color:var(--latte); padding:9px 14px; border-radius:100px; }
+  .navbtn.active { background:var(--grenadine); color:#fff; }
+  .navbtn .ic { font-size:14px; line-height:1; }
+
+  .card { background:var(--paper); border:1.5px solid var(--ink); border-radius:24px; padding:18px; margin-bottom:16px; }
+  .pill { display:inline-block; font-size:12px; font-weight:600; padding:5px 12px; border-radius:100px; }
+  .pill-match { background:var(--mint-wash); color:#3d5c31; border:1px solid var(--sage); }
+  .pill-live { background:var(--seafoam); color:#fff; }
+  .pill-warn { background:var(--postcard); color:#8a6a10; border:1px solid var(--mustard); }
+  .pill-tag { background:transparent; color:var(--latte); border:1px solid var(--line); margin:0 6px 6px 0; }
+  .btn { font-family:var(--ft); border:none; border-radius:100px; padding:14px 20px; font-size:15px; font-weight:600; cursor:pointer; }
+  .btn-primary { background:var(--grenadine); color:#fff; width:100%; }
+  .btn-primary:active { background:var(--grenadine-press); }
+  .btn-secondary { background:transparent; border:1.5px solid var(--ink); color:var(--ink); }
+  .btn-tonal { background:var(--mint-wash); color:var(--olive); }
+  .small { font-size:12.5px; color:var(--latte); }
+  .row { display:flex; align-items:center; justify-content:space-between; }
+  .flex-wrap { display:flex; flex-wrap:wrap; }
+  h3.card-title { font-family:var(--fd); font-weight:600; font-size:19px; margin-top:10px; letter-spacing:-0.2px; }
+
+  .hero-band { height:120px; border-radius:16px 16px 0 0; margin:-18px -18px 14px; border-bottom:1.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .hero-band .sun { width:52px; height:52px; border-radius:50%; background:var(--beeswax); border:1.5px solid var(--ink); }
+  .hero-band .ground { position:absolute; bottom:0; left:0; right:0; height:34%; }
+
+  .swipe-card { background:var(--paper); border:1.5px solid var(--ink); border-radius:24px; overflow:hidden; margin-bottom:18px; }
+  .swipe-img { height:190px; display:flex; align-items:center; justify-content:center; border-bottom:1.5px solid var(--ink); position:relative; overflow:hidden; }
+  .swipe-img .motif { width:64px; height:64px; border-radius:50%; border:1.5px solid var(--ink); z-index:2; }
+  .swipe-img .band { position:absolute; left:0; right:0; height:38%; bottom:0; }
+  .swipe-title { font-family:var(--fd); font-weight:600; font-size:18px; padding:16px 16px 4px; }
+  .swipe-sub { font-size:13px; color:var(--latte); padding:0 16px 14px; }
+  .swipe-actions { display:flex; gap:10px; padding:0 16px 18px; }
+  .swipe-actions button { flex:1; }
+
+  .day-label { font-family:var(--fd); font-weight:600; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--latte); margin:20px 0 10px; }
+  .stop { display:flex; gap:12px; margin-bottom:10px; }
+  .stop .line { width:12px; display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+  .stop .line .node { width:12px; height:12px; border-radius:50%; background:var(--seafoam); border:1.5px solid var(--ink); margin-top:8px; }
+  .stop .line .link { flex:1; width:1.5px; background:var(--ink); opacity:0.25; margin-top:3px; }
+  .stop .content { background:var(--paper); border:1.5px solid var(--ink); border-radius:16px; padding:12px 14px; flex:1; }
+  .stop .content .t { font-size:14px; font-weight:600; }
+  .stop .content .s { font-size:12px; color:var(--latte); margin-top:2px; }
+  .stop.changed .content { background:var(--postcard); }
+  .stop.changed .line .node { background:var(--mustard); }
+
+  .alert-banner { background:var(--postcard); border:1.5px solid var(--ink); border-radius:16px; padding:13px 15px;
+    margin-bottom:16px; font-size:13px; line-height:1.45; display:flex; gap:10px; animation:slide 0.35s ease; }
+  .alert-banner .dot { width:10px; height:10px; border-radius:50%; background:var(--grenadine); flex-shrink:0; margin-top:4px; }
+  @keyframes slide { from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:translateY(0);} }
+  .toast { background:var(--mint-wash); border:1.5px solid var(--ink); border-radius:16px; padding:13px 15px; font-size:13px; margin-bottom:16px; animation:slide 0.35s ease; }
+
+  .chatlog { display:flex; flex-direction:column; gap:10px; padding-bottom:8px; }
+  .msg { max-width:82%; padding:11px 14px; border-radius:18px; font-size:14px; line-height:1.5; }
+  .msg.ai { background:var(--paper); border:1.5px solid var(--ink); align-self:flex-start; border-bottom-left-radius:4px; }
+  .msg.me { background:var(--grenadine); color:#fff; align-self:flex-end; border-bottom-right-radius:4px; }
+  .chat-input-bar { position:absolute; bottom:86px; left:16px; right:16px; display:flex; gap:8px; z-index:41; }
+  .chat-input-bar input { flex:1; font-family:var(--ft); background:var(--paper); border:1.5px solid var(--ink);
+    border-radius:100px; padding:12px 18px; font-size:14px; color:var(--ink); }
+  .chat-input-bar input::placeholder { color:var(--latte); }
+  .chat-input-bar button { background:var(--grenadine); border:none; border-radius:100px; padding:0 18px; color:#fff; font-weight:600; font-family:var(--ft); cursor:pointer; }
+  .suggest-row { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:10px; scrollbar-width:none; }
+  .suggest-row::-webkit-scrollbar { display:none; }
+  .suggest-chip { flex-shrink:0; background:var(--paper); border:1.5px solid var(--ink); border-radius:100px; padding:9px 14px; font-size:12.5px; font-weight:600; cursor:pointer; }
+
+  .profile-avatar { width:72px; height:72px; border-radius:50%; background:var(--peach); border:1.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; font-family:var(--fd); font-size:24px; font-weight:700; color:#fff; margin:0 auto 10px; }
+  .taste-tag { border:1.5px solid var(--line); border-radius:100px; padding:7px 13px; font-size:12.5px; margin:0 6px 8px 0; display:inline-block; color:var(--latte); }
+  .taste-tag.on { background:var(--mint-wash); border-color:var(--olive); color:#3d5c31; font-weight:600; }
+
+  .onboard-wrap { position:absolute; inset:0; background:var(--cream); z-index:100; display:flex; flex-direction:column; padding:56px 24px 30px; }
+  .onboard-wrap h2 { font-family:var(--fd); font-weight:700; font-size:26px; letter-spacing:-0.4px; margin-bottom:6px; }
+  .onboard-wrap p.sub { color:var(--latte); font-size:14px; margin-bottom:22px; }
+  .progress-dots { display:flex; gap:6px; margin-bottom:22px; }
+  .progress-dots span { height:5px; flex:1; border-radius:5px; background:var(--line); }
+  .progress-dots span.done { background:var(--grenadine); }
+  .fade-in { animation:fadein 0.35s ease; }
+  @keyframes fadein { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .center-col { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; }
+  .spinner { width:36px; height:36px; border-radius:50%; border:3px solid var(--line); border-top-color:var(--grenadine); animation:spin 0.8s linear infinite; margin-bottom:18px; }
+  @keyframes spin { to{transform:rotate(360deg);} }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="page-intro"><b>movo</b><br>The AI that knows how you travel. Clickable concept prototype — tap through the taste check, then explore with the bottom nav.</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="statusbar"><span>9:41</span><span>movo</span></div>
+
+  <div id="onboard" class="onboard-wrap">
+    <div class="progress-dots" id="dots"></div>
+    <div id="onboardBody" class="fade-in" style="flex:1; display:flex; flex-direction:column;"></div>
+  </div>
+
+  <div class="screen" id="screen"><div class="screen-inner" id="screenInner"></div></div>
+
+  <div class="chat-input-bar hidden" id="chatInputBar">
+    <input type="text" id="chatInput" placeholder="Ask movo anything...">
+    <button onclick="sendTyped()">Send</button>
+  </div>
+
+  <div class="navbar hidden" id="navbar">
+    <button class="navbtn active" data-tab="discover" onclick="setTab('discover')"><span class="ic">✦</span>For you</button>
+    <button class="navbtn" data-tab="trip" onclick="setTab('trip')"><span class="ic">▲</span>Trips</button>
+    <button class="navbtn" data-tab="chat" onclick="setTab('chat')"><span class="ic">●</span>Movo</button>
+    <button class="navbtn" data-tab="profile" onclick="setTab('profile')"><span class="ic">◐</span>You</button>
+  </div>
+</div>
+
+<script>
+var state = {
+  step: 0, likes: [], tab: 'discover', disrupted: false, surprised: false,
+  chat: [{who:'ai', text:"Hi, I'm movo. I built your Lisbon trip around your taste — slow mornings, markets, live music. Want to change anything?"}]
+};
+
+var onboardCards = [
+  {key:'boutique', title:'Boutique stays over big hotels', sub:'Small, characterful, personal.', sky:'var(--darlington)', ground:'var(--sage)', motif:'var(--peach)'},
+  {key:'localfood', title:'Street food & local markets', sub:'Eat where the locals queue.', sky:'var(--postcard)', ground:'var(--beeswax)', motif:'var(--grenadine)'},
+  {key:'lowkey', title:'Slow mornings, fewer landmarks', sub:'Depth over checklists.', sky:'var(--mint-wash)', ground:'var(--darlington)', motif:'var(--mustard)'},
+  {key:'nightlife', title:'Live music & late nights', sub:'The city after dark.', sky:'#F3D9C8', ground:'var(--peach)', motif:'var(--olive)'}
+];
+
+function renderDots(){
+  var d = document.getElementById('dots'); d.innerHTML='';
+  for(var i=0;i<onboardCards.length+1;i++){
+    var s=document.createElement('span'); if(i<state.step) s.className='done'; d.appendChild(s);
+  }
+}
+
+function renderOnboard(){
+  renderDots();
+  var body = document.getElementById('onboardBody');
+  body.className='fade-in';
+  if(state.step < onboardCards.length){
+    var c = onboardCards[state.step];
+    body.innerHTML =
+      '<h2>Learning your taste</h2>' +
+      '<p class="sub">Question '+(state.step+1)+' of '+onboardCards.length+' — this shapes every trip movo builds for you.</p>' +
+      '<div class="swipe-card">' +
+      '<div class="swipe-img" style="background:'+c.sky+'"><div class="band" style="background:'+c.ground+'"></div><div class="motif" style="background:'+c.motif+'"></div></div>' +
+      '<div class="swipe-title">'+c.title+'</div><div class="swipe-sub">'+c.sub+'</div>' +
+      '<div class="swipe-actions">' +
+      '<button class="btn btn-secondary" onclick="onboardChoice(false)">Not me</button>' +
+      '<button class="btn btn-primary" style="width:auto;" onclick="onboardChoice(true)">Yes, that\'s me</button>' +
+      '</div></div>';
+  } else {
+    body.innerHTML =
+      '<div class="center-col"><div class="spinner"></div>' +
+      '<h2>Designing your trips</h2>' +
+      '<p class="sub">Matching '+state.likes.length+' preferences against 40,000+ journeys...</p></div>';
+    setTimeout(finishOnboard, 1600);
+  }
+}
+
+function onboardChoice(liked){
+  if(liked) state.likes.push(onboardCards[state.step].key);
+  state.step++; renderOnboard();
+}
+
+function finishOnboard(){
+  document.getElementById('onboard').classList.add('hidden');
+  document.getElementById('navbar').classList.remove('hidden');
+  setTab('discover');
+}
+
+function setTab(tab){
+  state.tab = tab;
+  document.querySelectorAll('.navbtn').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===tab); });
+  render();
+}
+
+function render(){
+  var el = document.getElementById('screenInner');
+  if(state.tab==='discover') el.innerHTML = discoverHtml();
+  if(state.tab==='trip') el.innerHTML = tripHtml();
+  if(state.tab==='chat') el.innerHTML = chatHtml();
+  if(state.tab==='profile') el.innerHTML = profileHtml();
+  document.getElementById('chatInputBar').classList.toggle('hidden', state.tab!=='chat');
+  if(state.tab==='chat'){ var s=document.getElementById('screen'); s.scrollTop = s.scrollHeight; }
+}
+
+function discoverHtml(){
+  var likedTags = state.likes.map(function(k){ return onboardCards.filter(function(c){return c.key===k;})[0].title; });
+  var surprise = state.surprised ? '<div class="toast">Found something: 4 free days on your calendar next month, shoulder-season fares to Sevilla, 93% taste match. Building a preview now...</div>' : '';
+  return '' +
+  '<div class="app-header"><div class="greet">Good evening, David</div><h1>For <span class="brand">you</span></h1></div>' +
+  surprise +
+  '<div class="card">' +
+  '<div class="hero-band" style="background:var(--darlington);"><div class="ground" style="background:var(--sage);"></div><div class="sun" style="z-index:2;"></div></div>' +
+  '<div class="row"><span class="pill pill-match">96% match</span><span class="small">Sep 12–17</span></div>' +
+  '<h3 class="card-title">Lisbon, on your terms</h3>' +
+  '<p class="small" style="margin-top:4px; line-height:1.5;">Boutique stay in Alfama, market food, one perfect sunset lookout, fado after dark.</p>' +
+  '<div class="flex-wrap" style="margin-top:12px;">'+likedTags.map(function(t){return '<span class="pill pill-tag">'+t+'</span>';}).join('')+'</div>' +
+  '<button class="btn btn-primary" style="margin-top:14px;" onclick="setTab(\'trip\')">Open itinerary</button></div>' +
+  '<div class="card">' +
+  '<div class="hero-band" style="background:var(--postcard);"><div class="ground" style="background:var(--beeswax);"></div><div class="sun" style="background:var(--grenadine); z-index:2;"></div></div>' +
+  '<div class="row"><span class="pill pill-match">89% match</span><span class="small">Oct 3–8</span></div>' +
+  '<h3 class="card-title">Oaxaca, food first</h3>' +
+  '<p class="small" style="margin-top:4px; line-height:1.5;">Market crawls, mezcal tastings, quiet colonial streets.</p>' +
+  '<button class="btn btn-secondary" style="margin-top:14px; width:100%;">Preview trip</button></div>' +
+  '<button class="btn btn-tonal" style="width:100%;" onclick="surpriseMe()">✦ Surprise me with something new</button>';
+}
+
+function surpriseMe(){ state.surprised = true; render(); }
+
+function tripHtml(){
+  var banner = state.disrupted ?
+    '<div class="alert-banner"><span class="dot"></span><div><b>Tram 28 is cancelled</b> — track maintenance. Movo rebuilt your afternoon: a walking food tour, same time slot, no cost change.</div></div>' : '';
+  var days = [
+    { label:'Day 1 · September 12', stops:[
+      {t:'Check in — Casa Lote', s:'Alfama · boutique · matched to your taste'},
+      {t:'Sunset at Miradouro da Graça', s:'Golden hour, no crowds'},
+      {t:'Dinner at Time Out Market', s:'Local food hall · walkable'}
+    ]},
+    { label:'Day 2 · September 13', stops:[
+      {t:'Slow breakfast, Rua do Século', s:'No alarm needed'},
+      {t:'Tram 28 heritage ride', s:'Booked · 10:30', flagged:true},
+      {t:'Fado at Tasca do Chico', s:'Live music · Bairro Alto'}
+    ]}
+  ];
+  var daysHtml = days.map(function(d){
+    var stopsHtml = d.stops.map(function(s,i){
+      var cls=''; var item=s;
+      if(state.disrupted && s.flagged){ cls=' changed'; item={t:'Walking food tour, Bairro Alto', s:'Auto-rebooked · same time · no charge'}; }
+      return '<div class="stop'+cls+'"><div class="line"><div class="node"></div>'+(i<d.stops.length-1?'<div class="link"></div>':'')+'</div>' +
+        '<div class="content"><div class="t">'+item.t+'</div><div class="s">'+item.s+'</div></div></div>';
+    }).join('');
+    return '<div class="day-label">'+d.label+'</div>'+stopsHtml;
+  }).join('');
+  return '' +
+  '<div class="app-header"><div class="greet">Lisbon, Portugal</div><h1>Sep 12–17</h1></div>' +
+  banner +
+  '<div class="card row" style="padding:14px 18px;"><div><div class="small">Everything bundled</div><div style="font-family:var(--fd); font-weight:600; font-size:16px;">$1,240 · flight + stay + 3 activities</div></div>' +
+  '<button class="btn btn-primary" style="width:auto; padding:12px 20px;" onclick="alert(\'Booking confirmed — mock action for the prototype\')">Book</button></div>' +
+  daysHtml +
+  (state.disrupted ? '<span class="pill pill-warn" style="margin-top:10px;">Plan updated 2 min ago</span>' :
+   '<button class="btn btn-secondary" style="width:100%; margin-top:14px;" onclick="simulateDisruption()">Simulate a live disruption</button>');
+}
+
+function simulateDisruption(){ state.disrupted = true; render(); }
+
+function chatHtml(){
+  var msgs = state.chat.map(function(m){ return '<div class="msg '+(m.who==='ai'?'ai':'me')+'">'+m.text+'</div>'; }).join('');
+  return '' +
+  '<div class="app-header" style="padding-bottom:10px;"><div class="greet">Your travel companion</div><h1><span class="brand">movo</span></h1></div>' +
+  '<div class="suggest-row">' +
+  '<div class="suggest-chip" onclick="sendQuick(\'What if it rains Thursday?\')">What if it rains Thursday?</div>' +
+  '<div class="suggest-chip" onclick="sendQuick(\'Make it cheaper\')">Make it cheaper</div>' +
+  '<div class="suggest-chip" onclick="sendQuick(\'Add more nightlife\')">More nightlife</div>' +
+  '</div>' +
+  '<div class="chatlog" id="chatlog">'+msgs+'</div>';
+}
+
+function sendQuick(text){
+  state.chat.push({who:'me', text:text});
+  var reply = "On it — I'll reshape the plan around that and keep everything you've already loved.";
+  if(text.toLowerCase().indexOf('rain')>-1) reply = "Rain's likely Thursday afternoon. I moved the walking tour to the morning and slotted in the Tile Museum — no rebooking fees, nothing else shifts.";
+  if(text.toLowerCase().indexOf('cheap')>-1) reply = "Found three swaps that save $180 total and keep your match above 90%. Want me to apply them?";
+  if(text.toLowerCase().indexOf('night')>-1) reply = "Adding a late set at Hot Clube de Portugal on Friday — oldest jazz club in Europe, very you. Saturday stays slow.";
+  state.chat.push({who:'ai', text:reply});
+  render();
+}
+
+function sendTyped(){
+  var inp = document.getElementById('chatInput');
+  var v = inp.value.trim(); if(!v) return;
+  inp.value=''; sendQuick(v);
+}
+
+function profileHtml(){
+  return '' +
+  '<div class="app-header" style="text-align:center;"><h1>You</h1></div>' +
+  '<div class="profile-avatar">DG</div>' +
+  '<div style="text-align:center; font-family:var(--fd); font-weight:600; font-size:17px;">David Groom</div>' +
+  '<div class="small" style="text-align:center; margin-bottom:18px;">Modern explorer · 4 trips designed</div>' +
+  '<div class="card"><div class="small" style="margin-bottom:10px; font-family:var(--fd); letter-spacing:0.8px; text-transform:uppercase; font-size:11px;">Your taste — learned automatically</div>' +
+  onboardCards.map(function(c){ return '<span class="taste-tag'+(state.likes.indexOf(c.key)>-1?' on':'')+'">'+c.title+'</span>'; }).join('') +
+  '<button class="btn btn-tonal" style="width:100%; margin-top:12px;" onclick="restartOnboard()">Retake taste check</button></div>' +
+  '<div class="card"><div class="small" style="margin-bottom:10px; font-family:var(--fd); letter-spacing:0.8px; text-transform:uppercase; font-size:11px;">Live connections</div>' +
+  '<div class="row" style="margin-bottom:8px;"><span style="font-size:14px;">Flight & train status</span><span class="pill pill-live">● Live</span></div>' +
+  '<div class="row" style="margin-bottom:8px;"><span style="font-size:14px;">Weather</span><span class="pill pill-live">● Live</span></div>' +
+  '<div class="row"><span style="font-size:14px;">Calendar</span><span class="pill pill-tag" style="margin:0;">Connect</span></div></div>';
+}
+
+function restartOnboard(){
+  state.step=0; state.likes=[]; state.disrupted=false; state.surprised=false;
+  document.getElementById('onboard').classList.remove('hidden');
+  document.getElementById('navbar').classList.add('hidden');
+  document.getElementById('chatInputBar').classList.add('hidden');
+  renderOnboard();
+}
+
+renderOnboard();
+document.getElementById('chatInput').addEventListener('keydown', function(e){ if(e.key==='Enter') sendTyped(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+{
+  "runId": "movo-components-v1",
+  "fileKey": "TbxokFrsLYqHlmRGZqO0vb",
+  "phase": "ink-surface-tokens-bound",
+  "entities": {
+    "collections": {
+      "movo tokens": "VariableCollectionId:144:2",
+      "modeLight": "144:0",
+      "modeDark": "342:0"
+    },
+    "darkShowcase": {
+      "For you": "342:529",
+      "Destination": "342:606",
+      "Day-by-day": "342:633",
+      "Profile": "342:686",
+      "label": "342:1129"
+    },
+    "variables": {
+      "color/brand/grenadine": "VariableID:144:3",
+      "color/brand/grenadine-press": "VariableID:144:4",
+      "color/accent/peach": "VariableID:144:5",
+      "color/accent/beeswax": "VariableID:144:6",
+      "color/accent/mustard": "VariableID:144:7",
+      "color/accent/seafoam": "VariableID:144:8",
+      "color/surface/darlington": "VariableID:144:9",
+      "color/surface/mint-wash": "VariableID:144:10",
+      "color/surface/postcard": "VariableID:144:11",
+      "color/surface/cream": "VariableID:144:12",
+      "color/surface/paper": "VariableID:144:13",
+      "color/green/sage": "VariableID:144:14",
+      "color/green/olive": "VariableID:144:15",
+      "color/green/forest": "VariableID:144:16",
+      "color/text/ink": "VariableID:144:17",
+      "color/text/latte": "VariableID:144:18",
+      "color/text/on-color": "VariableID:144:19",
+      "color/border/line": "VariableID:144:20",
+      "spacing/xs": "VariableID:144:21",
+      "spacing/sm": "VariableID:144:22",
+      "spacing/md": "VariableID:144:23",
+      "spacing/lg": "VariableID:144:24",
+      "spacing/xl": "VariableID:144:25",
+      "radius/sm": "VariableID:144:26",
+      "radius/md": "VariableID:144:27",
+      "radius/lg": "VariableID:144:28",
+      "radius/full": "VariableID:144:29",
+      "color/surface/ink-screen": "VariableID:631:2",
+      "color/surface/ink-card": "VariableID:631:3"
+    },
+    "pages": {
+      "movo — app screens v1": "135:2",
+      "movo — components v1": "145:10",
+      "movo — flow · trip setup": "161:2",
+      "movo — user flow": "309:2",
+      "movo — typography": "313:2",
+      "movo — brand archetypes": "352:2"
+    },
+    "archetypeWheel": {
+      "frame": "352:3",
+      "geometry": "352:4"
+    },
+    "typographyPages": {
+      "cover": "313:3",
+      "specimen": "313:4",
+      "typeRamp": "313:5",
+      "voicePoster": "313:6"
+    },
+    "userFlowDiagram": {
+      "frame": "309:3",
+      "connectors": "310:2",
+      "hubNode": "309:696",
+      "realityCheck": "309:714"
+    },
+    "wizardScreens": {
+      "01 When": "161:3",
+      "02 Where": "161:4",
+      "03 Budget": "161:5",
+      "04 Reality check": "161:6",
+      "05 Generating": "161:7"
+    },
+    "screens": {
+      "01 For you": "135:3",
+      "02 Trip": "135:4",
+      "03 Chat": "135:5",
+      "00 Style sheet": "135:6"
+    },
+    "textStyles": {
+      "Numeral XL": "S:fe20d644532b42bdcb161452c6a908aef3d4a484,",
+      "Display": "S:58fe03307a6c325781fb2987ba6e4871461cc68a,",
+      "Title 1": "S:c4ce8b274d6b99824eded6650c744cc310b3df1c,",
+      "Title 2": "S:f39d4c53dd38629df596d9d408433d1ad08d987d,",
+      "Body": "S:25703b5a1c88f4a0063935b0c4580d76eeaab049,",
+      "Callout": "S:4b904a9fa5bc64df5f4fadd3fbb20f4f39a8f5b3,",
+      "Caption": "S:1063205eb6307a949b7570724ed4b7bb4d6ba5e0,",
+      "Overline": "S:548a7b383d4e2b7de4d85d95bb721ffc67d62ebb,"
+    },
+    "components": {
+      "Button (set)": "146:18",
+      "Number card (set)": "147:18",
+      "Step indicator (set)": "147:25",
+      "icon grid container": "147:26",
+      "icons": {
+        "flight": "147:27",
+        "luggage": "147:29",
+        "map": "147:31",
+        "route": "147:33",
+        "explore": "147:35",
+        "calendar": "147:37",
+        "sunny": "147:39",
+        "rainy": "147:41",
+        "train": "147:43",
+        "restaurant": "147:45",
+        "hotel": "147:47",
+        "music": "147:49",
+        "wallet": "147:51",
+        "chat": "147:53",
+        "warning": "147:55",
+        "check": "147:57",
+        "person": "154:2"
+      },
+      "Chip (set)": "150:8",
+      "Status pill (set)": "150:17",
+      "Field (set)": "151:12",
+      "Toggle (set)": "152:6",
+      "Slider": "152:7",
+      "Avatar (set)": "152:15",
+      "Segmented control": "152:16",
+      "Tab item (set)": "154:12",
+      "Tab bar": "154:13",
+      "Nav bar": "156:16",
+      "Alert banner (set)": "156:35",
+      "Chat bubble (set)": "157:20",
+      "Stop row (set)": "157:37",
+      "Ticket card": "158:16",
+      "Map card": "158:53",
+      "Trip card (set)": "173:51",
+      "Calendar day (set)": "223:28",
+      "Calendar · range": "224:20",
+      "Movo tip": "225:50",
+      "Menu · overflow": "228:50",
+      "Tab bar FAB": "233:133",
+      "Sell row (set)": "277:58",
+      "Sell row · Collapsed": "240:50",
+      "Sell row · Expanded": "277:51",
+      "Activity card": "240:55",
+      "Profile index row": "240:61"
+    },
+    "flowScreens2": {
+      "06 Destination": "191:54",
+      "07 Profile": "241:255",
+      "08 Taste profile": "247:329",
+      "05b Review & book": "252:342",
+      "05c Booked": "254:573",
+      "00 Splash": "198:62",
+      "Welcome": "200:62",
+      "Feed clone": "200:77",
+      "Itin clone": "200:126",
+      "00c Taste check": "273:502",
+      "00c-2 Taste interests chips": "281:512",
+      "Feed Lisbon preview card": "291:588",
+      "02b Where know state": "272:652",
+      "08b Itinerary proposed": "272:489",
+      "Welcome ghost link": "271:499"
+    },
+    "uxPassNotes": "Tab item variants (154:4/154:8) now VERTICAL icon+label, labels visible on all tabs (Trips/Movo/You). Where main (161:4): field hidden, moved below mode cards. HTML prototype has matching: taste screen, booked flag, knowWrap, ghostlink.",
+    "dayCircle (set)": "245:56",
+    "frames": {
+      "movo app2": "377:7865",
+      "00c · Taste check": [
+        "377:8336",
+        "377:8316",
+        "378:8362"
+      ]
+    }
+  },
+  "ramps": {
+    "neutral 0-900": "VariableID:148:2 .. 148:11",
+    "primary 100-900": "VariableID:148:12 .. 148:16",
+    "secondary-green 100-900": "VariableID:148:17 .. 148:21",
+    "secondary-amber 100-900": "VariableID:148:22 .. 148:26"
+  },
+  "completedSteps": [
+    "phase0-discovery",
+    "phase1-color-spacing-radius-tokens",
+    "phase1-text-styles",
+    "phase3-button",
+    "phase3-number-card",
+    "phase3-step-indicator",
+    "phase3-icons",
+    "phase1b-color-ramps"
+  ]
+}
