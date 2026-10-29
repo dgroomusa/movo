@@ -76,6 +76,18 @@
   .fade{animation:fade .35s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @keyframes fadeOp{from{opacity:0}to{opacity:1}}
+  @keyframes march{to{stroke-dashoffset:-14}}
+  @keyframes dotlight{0%,100%{opacity:.22;transform:scale(.82)}18%,42%{opacity:1;transform:scale(1.18)}}
+  @keyframes shimmer{from{background-position:140% 0}to{background-position:-140% 0}}
+  #genRoute path{animation:march .7s linear infinite}
+  #genRoute circle{transform-box:fill-box;transform-origin:center;opacity:.22;animation:dotlight 2.4s ease-in-out infinite}
+  #genRoute circle:nth-of-type(1){animation-delay:0s} #genRoute circle:nth-of-type(2){animation-delay:.45s} #genRoute circle:nth-of-type(3){animation-delay:.9s} #genRoute circle:nth-of-type(4){animation-delay:1.35s} #genRoute circle:nth-of-type(5){animation-delay:1.8s}
+  .msg.think{display:inline-flex;gap:6px;align-items:center;padding:14px 16px}
+  .msg.think i{display:block;width:7px;height:7px;border-radius:50%;opacity:.22;animation:dotlight 1.3s ease-in-out infinite}
+  .msg.think i:nth-child(1){background:var(--orange)} .msg.think i:nth-child(2){background:var(--amber);animation-delay:.22s} .msg.think i:nth-child(3){background:var(--teal);animation-delay:.44s}
+  .act.busy{position:relative} .act.busy::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.6) 50%,transparent 68%);background-size:240% 100%;animation:shimmer 1.1s ease-in-out infinite}
+  html[data-theme="dark"] .act.busy::after{background-image:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.14) 50%,transparent 68%)}
+  @media (prefers-reduced-motion:reduce){#genRoute path,#genRoute circle,.msg.think i,.act.busy::after{animation:none} #genRoute circle,.msg.think i{opacity:1}}
   #taste{background:#22211E;color:var(--n0)}
   #taste .nav .ms{color:#FDFDFB}
   #taste .nav .skip{background:none;border:0;padding:4px 0;font:inherit;font-size:14px;font-weight:500;color:var(--n400);cursor:pointer}
@@ -467,11 +479,10 @@
   </div></div>
 
   <div class="screen" id="generating"><div class="pad fade" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center">
-    <svg width="220" height="90" viewBox="0 0 220 90"><path d="M 12 76 L 62 44 L 116 64 L 168 22 L 208 34" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="7 7" fill="none"/><circle cx="12" cy="76" r="4.5" fill="var(--n900)"/><circle cx="62" cy="44" r="4.5" fill="var(--forest)"/><circle cx="116" cy="64" r="4.5" fill="var(--amber)"/><circle cx="168" cy="22" r="4.5" fill="var(--orange)"/><circle cx="208" cy="34" r="4.5" fill="var(--teal)"/></svg>
+    <svg id="genRoute" width="220" height="90" viewBox="0 0 220 90"><path d="M 12 76 L 62 44 L 116 64 L 168 22 L 208 34" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="7 7" fill="none"/><circle cx="12" cy="76" r="4.5" fill="var(--n900)"/><circle cx="62" cy="44" r="4.5" fill="var(--forest)"/><circle cx="116" cy="64" r="4.5" fill="var(--amber)"/><circle cx="168" cy="22" r="4.5" fill="var(--orange)"/><circle cx="208" cy="34" r="4.5" fill="var(--teal)"/></svg>
     <div class="wordmark" style="color:var(--orange);font-size:40px;margin:14px 0 6px">movo</div>
     <div style="font-family:var(--fd);font-weight:600;font-size:18px;color:var(--n900)">Designing your Copenhagen</div>
     <p class="sub" style="max-width:260px;margin-top:6px">Matching 12 taste signals against 40,000 trips. Slow mornings protected.</p>
-    <div class="progress"><div id="genBar"></div></div>
     <div style="font-size:12px;color:var(--latte)" id="genStep">Finding your hotel...</div>
   </div></div>
 
@@ -807,6 +818,11 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   var el = document.getElementById(id);
   el.classList.add('on');
+  if (id==='itin' && replanAt) {
+    var key = Object.keys(DAYS).find(function(k){ return DAYS[k].acts.some(function(a){ return a.changed; }); }) || curDay;
+    var btn = document.querySelector('#dayRow .dayc[onclick*="\''+key+'\'"]');
+    if (btn) selDay(btn, key); else renderDay(key);
+  }
   curScreen = id;
   paintBackdrop(id);
   if (id !== 'feed') el.scrollTop = 0;
@@ -1032,7 +1048,6 @@ function setBudget(v,chip){
   else e.textContent='Trips like yours usually land between $1,200–$1,600. Your number is right in range.';
 }
 function startGen(){
-  setTimeout(function(){ document.getElementById('genBar').style.width='100%'; }, 100);
   var steps=['Finding your hotel...','Pricing activities...','Protecting slow mornings...','Done.'];
   var i=0; var iv=setInterval(function(){ i++; if(i<steps.length) document.getElementById('genStep').textContent=steps[i]; }, 600);
   setTimeout(function(){ clearInterval(iv); show('dest'); }, 2600);
@@ -1186,7 +1201,7 @@ function renderDay(key){
   curDay = key;
   var d = DAYS[key];
   var acts = d.acts.map(function(a){
-    return '<div class="act"'+(a.id?' id="'+a.id+'"':'')+((a.changed&&booked)?' style="background:var(--postcard)"':'')+'><div class="aimg" style="background-image:url(\''+a.img+'\');background-position:'+(a.pos||'center')+'"></div>'+bookBtn(a.tt, a.ss)+
+    return '<div class="act'+(a.changed?' is-changed':'')+'"'+(a.id?' id="'+a.id+'"':'')+((a.changed&&booked)?' style="background:var(--postcard)"':'')+'><div class="aimg" style="background-image:url(\''+a.img+'\');background-position:'+(a.pos||'center')+'"></div>'+bookBtn(a.tt, a.ss)+
       '<div class="abody"><div class="atime">'+a.t+'</div><div class="tt">'+a.tt+'</div><div class="ss">'+a.ss+'</div></div></div>';
   }).join('');
   var gl = d.glance.map(function(g){
@@ -1200,6 +1215,11 @@ function renderDay(key){
   document.getElementById('dayBody').innerHTML = pre +
     '<div class="overline">'+d.label+'</div><div class="grid2">'+acts+'</div>' +
     '<div class="overline">At a glance</div><div class="glance">'+gl+'</div>';
+  if (replanAt && Date.now()-replanAt < 120000) {
+    var rows = document.querySelectorAll('#dayBody .act.is-changed'); if (!rows.length) rows = document.querySelectorAll('#dayBody .act');
+    rows.forEach(function(r){ r.classList.add('busy'); });
+    setTimeout(function(){ rows.forEach(function(r){ r.classList.remove('busy'); }); }, 1600); replanAt = 0;
+  }
 }
 function selDay(btn, key){
   document.querySelectorAll('#dayRow .dayc').forEach(function(b){ b.classList.remove('sel'); });
@@ -1219,17 +1239,19 @@ function confirmBook(){
     '<div style="display:flex;gap:18px"><div class="mini"><div class="ml">BOARDS</div><div class="mv">10:05</div></div><div class="mini"><div class="ml">LANDS</div><div class="mv">15:10</div></div></div></div></div>' +
     '<button class="btn btn-ink" style="width:100%" onclick="tabTo(&quot;itin&quot;)">View day-by-day plan</button></div>';
 }
+var replanAt=0;
 function ask(text){
   var log=document.getElementById('chatlog');
   log.insertAdjacentHTML('beforeend','<div class="msg me"></div>');
   log.lastChild.textContent=text;
   var reply="On it — reshaping the plan around that, keeping everything you love.";
-  var t=text.toLowerCase();
+  var t=text.toLowerCase(); var replan = /rain|cheap|night|move|swap|change/.test(t);
   if(t.indexOf('rain')>-1) reply="Rain's likely Thursday afternoon. I moved the canal tour to the morning and slotted in the Design Museum — no rebooking fees, nothing else shifts.";
   if(t.indexOf('cheap')>-1) reply="Found three swaps that save $180 and keep your match above 90%. Want me to apply them?";
   if(t.indexOf('night')>-1) reply="Adding a late set at La Fontaine on Friday — Copenhagen&#39;s oldest jazz room, very you.";
-  setTimeout(function(){ log.insertAdjacentHTML('beforeend','<div class="msg ai"></div>'); log.lastChild.textContent=reply; var sc=document.getElementById('chat'); sc.scrollTop=sc.scrollHeight; },500);
+  log.insertAdjacentHTML('beforeend','<div class="msg ai think"><i></i><i></i><i></i></div>'); var think=log.lastChild;
   var sc=document.getElementById('chat'); sc.scrollTop=sc.scrollHeight;
+  setTimeout(function(){ think.className='msg ai'; think.textContent=reply; if(replan) replanAt=Date.now(); sc.scrollTop=sc.scrollHeight; },1400);
 }
 function sendChat(){
   var inp=document.getElementById('chatText'); var v=inp.value.trim(); if(!v) return;
