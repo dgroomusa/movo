@@ -588,7 +588,7 @@
     </div>
     <div class="overline">Your account</div>
     <div class="plist">
-      <div class="prow" onclick="openAcct('taste')"><span class="idx">01</span><span class="lbl">Taste profile</span><span class="cnt">4</span></div>
+      <div class="prow" onclick="openAcct('taste')"><span class="idx">01</span><span class="lbl">Taste profile</span><span class="cnt" id="tasteCnt">4</span></div>
       <div class="prow" onclick="openAcct('trips')"><span class="idx">02</span><span class="lbl">Trips</span><span class="cnt">4</span></div>
       <div class="prow" onclick="openAcct('saved')"><span class="idx">03</span><span class="lbl">Saved places</span><span class="cnt" id="savedCnt">4</span></div>
       <div class="prow" onclick="openAcct('docs')"><span class="idx">04</span><span class="lbl">Travel documents</span></div>
@@ -813,9 +813,9 @@ function renderItinStatus(){
 }
 var tasteDone = false, tasteI = 0;
 var TASTE_Q = [
-  {imgk:'tmarkets', pos:'center 42%', t:'Street markets over shopping malls', s:'Eat where the locals queue.'},
-  {imgk:'tmornings', pos:'center', t:'Slow mornings, no 7 a.m. tours', s:'The day starts after coffee.'},
-  {imgk:'tmusic', pos:'center 30%', t:'Live music after dark', s:'Find the session, stay out too late.'}
+  {imgk:'tmarkets', pos:'center 42%', t:'Street markets over shopping malls', s:'Eat where the locals queue.', tag:'Markets'},
+  {imgk:'tmornings', pos:'center', t:'Slow mornings, no 7 a.m. tours', s:'The day starts after coffee.', tag:'Slow mornings'},
+  {imgk:'tmusic', pos:'center 30%', t:'Live music after dark', s:'Find the session, stay out too late.', tag:'Live music'}
 ];
 var tasteReturn = 'feed';
 function letsGo(){ if (tasteDone) { tabTo('feed'); } else { tasteReturn='feed'; go('taste'); tasteStart(); } }
@@ -836,7 +836,28 @@ function renderTaste(){
     '<button class="btn btn-outline" style="flex:1" onclick="tasteNext(true)">Love it</button></div></div></div>';
   document.getElementById('tasteProg').textContent = (tasteI+1) + ' of 4';
 }
-function tasteNext(){ tasteI++; if (tasteI >= TASTE_Q.length) { renderTasteChips(); } else { renderTaste(); } }
+var TASTE_PROFILE = ['Boutique stays','Slow mornings','Street food','Live music'];
+function tasteHas(tag){ return TASTE_PROFILE.indexOf(tag) > -1; }
+function tasteAdd(tag){ if (tag && !tasteHas(tag)) TASTE_PROFILE.push(tag); updateTasteCount(); }
+function tasteRemove(tag){ TASTE_PROFILE = TASTE_PROFILE.filter(function(t){ return t !== tag; }); updateTasteCount(); }
+function updateTasteCount(){ document.querySelectorAll('#tasteCnt').forEach(function(el){ el.textContent = TASTE_PROFILE.length; }); }
+function renderTasteProfile(){
+  var chips = TASTE_PROFILE.length
+    ? TASTE_PROFILE.map(function(t){ return '<button class="chip filled" onclick="tasteRemove(' + JSON.stringify(t).replace(/"/g,'&quot;') + '); this.remove()">' + t + ' ×</button>'; }).join('')
+    : '<p class="sub">Nothing yet — retake the taste check and movo starts learning again.</p>';
+  return '<p class="sub">Movo learned these from your taste check and trip ratings. Remove any that miss — movo listens.</p>' +
+    '<div id="tasteChips">' + chips + '</div>' +
+    '<div class="overline" style="margin-top:18px">Movo is noticing</div>' +
+    (tasteHas('Coastal towns') ? '' :
+    '<div class="card" style="cursor:default"><div class="t" style="font-size:13.5px">You linger on coastal trips</div><div class="s">Confirm it and movo will boost sea towns in your feed.</div>' +
+    '<div style="display:flex;gap:8px;margin-top:12px"><button class="chip" onclick="tasteAdd(\'Coastal towns\'); openAcct(\'taste\')">That&#39;s me</button><button class="chip" onclick="this.closest(\'.card\').remove()">Not really</button></div></div>') +
+    '<button class="btn btn-tonal" style="width:100%;margin-top:8px" onclick="tasteRetake()">Retake taste check</button>';
+}
+function tasteNext(love){
+  var q = TASTE_Q[tasteI];
+  if (q && q.tag) { if (love) tasteAdd(q.tag); else tasteRemove(q.tag); }
+  tasteI++; if (tasteI >= TASTE_Q.length) { renderTasteChips(); } else { renderTaste(); }
+}
 var TASTE_CHIPS = ['Street food','Markets','Live music','Museums','Architecture','Hiking','Coastline','Nightlife','Coffee crawls','Photography','Local festivals','Day trips','Street art','Wine country','Hot springs','Cooking classes','Slow trains','Bookshops','Vintage finds','Wild swims'];
 function renderTasteChips(){
   document.getElementById('tasteHead').style.display = 'none';
@@ -859,7 +880,9 @@ function addOtherChip(btn){
 function endTaste(skip){
   tasteDone = true;
   if (skip) { finishTaste(); return; }
-  var picks = [].slice.call(document.querySelectorAll('#tasteChipWrap .chip.filled')).map(function(c){ return c.textContent.toLowerCase(); }).slice(0,3);
+  var chosen = [].slice.call(document.querySelectorAll('#tasteChipWrap .chip.filled')).map(function(c){ return c.textContent.trim(); });
+  chosen.forEach(tasteAdd);
+  var picks = chosen.map(function(c){ return c.toLowerCase(); }).slice(0,3);
   document.getElementById('tasteCard').innerHTML =
     '<div class="fade" style="text-align:center;padding:36px 0">' +
     '<div style="width:64px;height:64px;border-radius:50%;background:var(--teal);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px"><span class="ms" style="font-size:30px;color:#fff">check</span></div>' +
@@ -871,18 +894,7 @@ function endTaste(skip){
   setTimeout(finishTaste, 1600);
 }
 var ACCT = {
- taste: { title:'Taste profile', body: `
-   <p class="sub">Movo learned these from your taste check and trip ratings. Remove any that miss — movo listens.</p>
-   <div id="tasteChips">
-     <button class="chip filled" onclick="this.remove()">Boutique stays ×</button>
-     <button class="chip filled" onclick="this.remove()">Slow mornings ×</button>
-     <button class="chip filled" onclick="this.remove()">Street food ×</button>
-     <button class="chip filled" onclick="this.remove()">Live music ×</button>
-   </div>
-   <div class="overline" style="margin-top:18px">Movo is noticing</div>
-   <div class="card" style="cursor:default"><div class="t" style="font-size:13.5px">You linger on coastal trips</div><div class="s">Confirm it and movo will boost sea towns in your feed.</div>
-   <div style="display:flex;gap:8px;margin-top:12px"><button class="chip" onclick="this.closest('.card').querySelector('.s').textContent='Added to your taste profile.'">That&#39;s me</button><button class="chip" onclick="this.closest('.card').remove()">Not really</button></div></div>
-   <button class="btn btn-tonal" style="width:100%;margin-top:8px" onclick="tasteRetake()">Retake taste check</button>` },
+ taste: { title:'Taste profile', body: function(){ return renderTasteProfile(); } },
  trips: { title:'Trips', body: `
    <div class="overline">Upcoming</div>
    <div class="card row" onclick="tabTo('itin')"><div><div class="t">Copenhagen, on your terms</div><div class="s">Sep 12–17 · booked · 96% match</div></div><span class="ms" style="color:var(--latte)">chevron_right</span></div>
