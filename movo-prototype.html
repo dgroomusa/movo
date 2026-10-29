@@ -721,6 +721,15 @@ if (location.search.indexOf('debug') > -1) {
   };
   updDbg(); setInterval(updDbg, 1000);
 }
+// Replace <use href="#symbol"> with the symbol's paths so every renderer (including canvas export) draws them
+function inlineUses(root){
+  (root||document).querySelectorAll('svg.svg use').forEach(function(u){
+    var sym = document.getElementById((u.getAttribute('href')||'').slice(1)); var svg = u.closest('svg'); if(!sym||!svg) return;
+    svg.setAttribute('viewBox', sym.getAttribute('viewBox'));
+    [].slice.call(sym.children).forEach(function(c){ svg.insertBefore(c.cloneNode(true), u); }); u.remove();
+  });
+}
+inlineUses(document);
 applyTheme();
 paintBackdrop('splash');
 function buildGallery() {
@@ -1004,6 +1013,7 @@ function openAcct(key){
   var c = ACCT[key];
   document.getElementById('acctTitle').textContent = c.title;
   document.getElementById('acctBody').innerHTML = typeof c.body === 'function' ? c.body() : c.body;
+  inlineUses(document.getElementById('acctBody'));
   show('acct');
   document.getElementById('tabbar').classList.remove('hidden');
 }
