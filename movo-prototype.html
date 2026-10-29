@@ -78,6 +78,8 @@
   @keyframes fadeOp{from{opacity:0}to{opacity:1}}
   #taste{background:#22211E;color:var(--n0)}
   #taste .nav .ms{color:#FDFDFB}
+  #taste .nav .skip{background:none;border:0;padding:4px 0;font:inherit;font-size:14px;font-weight:500;color:var(--n400);cursor:pointer}
+  #taste .nav .skip:hover{color:#FDFDFB}
   #taste .nav .t{color:#FDFDFB}
   #taste .q{color:var(--n0)}
   #taste .sub{color:var(--n400);font-size:14px;line-height:1.5}
@@ -367,7 +369,7 @@
   </div>
 
   <div class="screen" id="taste"><div class="pad fade">
-    <div class="nav"><span class="ms" onclick="tasteBack()" style="cursor:pointer">arrow_back</span><span class="t">Quick taste check</span><span class="ms" onclick="endTaste(true)" style="cursor:pointer" title="Skip">more_horiz</span></div>
+    <div class="nav"><span class="ms" onclick="tasteBack()" style="cursor:pointer">arrow_back</span><span class="t">Quick taste check</span><button class="skip" onclick="endTaste(true)">Skip</button></div>
     <h2 class="q" id="tasteHead">Does this feel like you?</h2>
     <p class="sub" id="tasteSub">Four quick calls — they shape every trip movo builds.</p>
     <div id="tasteCard"></div>
