@@ -1,7 +1,7 @@
 {
   "runId": "movo-components-v1",
   "fileKey": "TbxokFrsLYqHlmRGZqO0vb",
-  "phase": "ink-surface-tokens-bound",
+  "phase": "figma-synced-2026-10-29",
   "entities": {
     "collections": {
       "movo tokens": "VariableCollectionId:144:2",
@@ -47,12 +47,12 @@
       "color/surface/ink-card": "VariableID:631:3"
     },
     "pages": {
-      "movo — app screens v1": "135:2",
-      "movo — components v1": "145:10",
-      "movo — flow · trip setup": "161:2",
-      "movo — user flow": "309:2",
-      "movo — typography": "313:2",
-      "movo — brand archetypes": "352:2"
+      "movo \u2014 app screens v1": "135:2",
+      "movo \u2014 components v1": "145:10",
+      "movo \u2014 flow \u00b7 trip setup": "161:2",
+      "movo \u2014 user flow": "309:2",
+      "movo \u2014 typography": "313:2",
+      "movo \u2014 brand archetypes": "352:2"
     },
     "archetypeWheel": {
       "frame": "352:3",
@@ -134,13 +134,13 @@
       "Map card": "158:53",
       "Trip card (set)": "173:51",
       "Calendar day (set)": "223:28",
-      "Calendar · range": "224:20",
+      "Calendar \u00b7 range": "224:20",
       "Movo tip": "225:50",
-      "Menu · overflow": "228:50",
+      "Menu \u00b7 overflow": "228:50",
       "Tab bar FAB": "233:133",
       "Sell row (set)": "277:58",
-      "Sell row · Collapsed": "240:50",
-      "Sell row · Expanded": "277:51",
+      "Sell row \u00b7 Collapsed": "240:50",
+      "Sell row \u00b7 Expanded": "277:51",
       "Activity card": "240:55",
       "Profile index row": "240:61"
     },
@@ -165,11 +165,28 @@
     "dayCircle (set)": "245:56",
     "frames": {
       "movo app2": "377:7865",
-      "00c · Taste check": [
+      "00c \u00b7 Taste check": [
         "377:8336",
         "377:8316",
         "378:8362"
-      ]
+      ],
+      "movo app3": "379:8789"
+    },
+    "pngRects": {
+      "377:8207": "movo-01-welcome",
+      "377:8212": "movo-00-splash",
+      "377:8263": "movo-02-taste-check",
+      "377:8261": "movo-02b-interests-chips",
+      "377:8315": "movo-09-destination-copenhagen",
+      "377:8269": "movo-08-for-you",
+      "388:8887": "movo-04-where",
+      "388:8889": "movo-03-when",
+      "388:8888": "movo-05-budget",
+      "388:8895": "movo-07-generating",
+      "388:8901": "movo-12-day-by-day",
+      "388:8899": "movo-11-review-book",
+      "388:9134": "movo-14-profile",
+      "388:9137": "movo-13-chat"
     }
   },
   "ramps": {
