@@ -296,9 +296,11 @@
   .tabbar{position:absolute;bottom:16px;left:16px;right:16px;height:58px;border-radius:100px;background:rgba(253,253,251,.68);
     backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.7);
     box-shadow:0 10px 30px -6px rgba(45,44,40,.12);display:flex;align-items:center;justify-content:space-around;padding:0 10px;z-index:20}
-  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:none;cursor:pointer;font-family:var(--ft);font-weight:600;font-size:9.5px;letter-spacing:.3px;color:var(--n700);padding:6px 13px;border-radius:16px}
-  .tab.on{color:var(--orange)}
-  .tab.on .ms{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:1px;border:none;background:none;cursor:pointer;font-family:var(--ft);font-weight:600;font-size:9.5px;letter-spacing:.3px;color:var(--n700);padding:2px 13px 4px;border-radius:16px}
+  .tab .ms{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s ease}
+  .tab.on{color:var(--orange7);font-weight:700}
+  .tab.on .ms{color:var(--orange);background:rgba(254,108,48,.14);font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24}
+  html[data-theme="dark"] .tab.on .ms{background:rgba(255,122,66,.20)}
   .fab-tab{width:46px;height:46px;border-radius:50%;background:var(--orange);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px -4px rgba(254,108,48,.55);transition:transform .15s ease,background .15s ease;flex-shrink:0}
   .fab-tab:hover{background:var(--orange7);transform:scale(1.06)}
   .fab-tab .ms{color:#fff;font-size:22px}
