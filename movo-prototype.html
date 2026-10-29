@@ -90,7 +90,9 @@
   #taste .chip:hover{background:rgba(253,253,251,.10);border-color:rgba(253,253,251,.45)}
   #taste .chip.filled:hover{background:var(--mint)}
   #taste .btn-outline:hover{background:rgba(253,253,251,.12)}
-  .tcard{background:#2D2C28;border-radius:24px;overflow:hidden;box-shadow:0 14px 34px -8px rgba(0,0,0,.4)}
+  .tcard{position:relative;background:#2D2C28;border-radius:24px;overflow:hidden;box-shadow:0 14px 34px -8px rgba(0,0,0,.4)}
+  .tstep{position:absolute;top:14px;left:14px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:1}
+  .tstep-1{background:#FE6C30;color:#FDFDFB} .tstep-2{background:#E8AB46;color:#22211E} .tstep-3{background:#67A397;color:#FDFDFB} .tstep-4{background:#A3AB7C;color:#22211E}
   html[data-theme="dark"] .tcard{background:var(--n0);box-shadow:none}
   .ghostlink{display:block;margin:16px auto 0;background:none;border:none;color:rgba(253,253,251,.85);font-family:var(--ft);font-size:13.5px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
@@ -373,7 +375,6 @@
     <h2 class="q" id="tasteHead">Does this feel like you?</h2>
     <p class="sub" id="tasteSub">Four quick calls — they shape every trip movo builds.</p>
     <div id="tasteCard"></div>
-    <div class="sub" id="tasteProg" style="text-align:center;margin-top:14px"></div>
   </div></div>
 
   <div class="screen" id="when"><div class="pad fade">
@@ -830,13 +831,12 @@ function renderTaste(){
   document.getElementById('tasteHead').style.display = 'none';
   document.getElementById('tasteSub').style.display = 'none';
   document.getElementById('tasteCard').innerHTML =
-    '<div class="fade tcard" style="margin-top:20px">' +
+    '<div class="fade tcard" style="margin-top:20px"><div class="tstep tstep-' + (tasteI+1) + '">' + (tasteI+1) + '</div>' +
     '<div style="aspect-ratio:1/1;background-image:url(\'' + IMGS[q.imgk] + '\');background-size:cover;background-position:' + q.pos + '"></div>' +
     '<div style="padding:18px 20px 20px"><div style="font-family:var(--fd);font-weight:700;font-size:19px">' + q.t + '</div>' +
     '<div class="sub" style="margin:4px 0 16px">' + q.s + '</div>' +
     '<div style="display:flex;gap:10px"><button class="btn btn-outline" style="flex:1" onclick="tasteNext(false)">Not me</button>' +
     '<button class="btn btn-outline" style="flex:1" onclick="tasteNext(true)">Love it</button></div></div></div>';
-  document.getElementById('tasteProg').textContent = (tasteI+1) + ' of 4';
 }
 var TASTE_PROFILE = ['Boutique stays','Slow mornings','Street food','Live music'];
 function tasteHas(tag){ return TASTE_PROFILE.indexOf(tag) > -1; }
@@ -868,12 +868,11 @@ function renderTasteChips(){
     return '<button class="chip" onclick="this.classList.toggle(\'filled\')">' + c + '</button>';
   }).join('');
   document.getElementById('tasteCard').innerHTML =
-    '<div class="fade tcard" style="margin-top:20px">' +
-    '<div style="padding:22px 20px 20px"><div style="font-family:var(--fd);font-weight:700;font-size:19px">What do you chase?</div>' +
+    '<div class="fade tcard" style="margin-top:20px"><div class="tstep tstep-4" style="top:18px;left:20px">4</div>' +
+    '<div style="padding:18px 20px 20px"><div style="font-family:var(--fd);font-weight:700;font-size:19px;min-height:28px;display:flex;align-items:center;padding-left:38px">What do you chase?</div>' +
     '<div class="sub" style="margin:4px 0 16px">Tap everything that pulls you on a trip \u2014 movo builds days around these.</div>' +
     '<div id="tasteChipWrap">' + chips + '<button class="chip" onclick="addOtherChip(this)">Add other +</button></div>' +
     '<button class="btn btn-ink" style="width:100%;margin-top:14px" onclick="endTaste(false)">Continue</button></div></div>';
-  document.getElementById('tasteProg').textContent = '4 of 4';
 }
 function addOtherChip(btn){
   var v = prompt('What else pulls you on a trip?');
@@ -890,7 +889,6 @@ function endTaste(skip){
     '<div style="width:64px;height:64px;border-radius:50%;background:var(--teal);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px"><span class="ms" style="font-size:30px;color:#fff">check</span></div>' +
     '<div style="font-family:var(--fd);font-weight:700;font-size:20px">Got it — very you</div>' +
     '<p class="sub" style="margin-top:6px" id="tasteDoneCopy">Your For you feed is now tuned to markets, slow mornings, and live music.</p></div>';
-  document.getElementById('tasteProg').textContent = '';
   if (picks.length) document.getElementById('tasteDoneCopy').textContent =
     'Your For you feed is now tuned to ' + (picks.length>1 ? picks.slice(0,-1).join(', ') + ' and ' + picks[picks.length-1] : picks[0]) + '.';
   setTimeout(finishTaste, 1600);
